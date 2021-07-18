@@ -2,4 +2,9 @@
 @import 'variables';
 
 //layout
-@import '_reboot'
+@import 'reboot';
+
+@import 'mixin';
+
+//button
+@import '../components/button/style';

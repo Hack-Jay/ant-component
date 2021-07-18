@@ -1,14 +1,16 @@
 import React from 'react';
+import Button from './components/button/button';
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <h1>Hello World</h1>
-                <h2>Hello World</h2>
-                <h3>Hello World</h3>
                 <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
+                    <Button>Hello</Button>
+                    <Button size="sm" type='primary'>Hello</Button>
+                    <Button size="lg" type='primary' disabled>Hello</Button>
+                    <Button type="link" href="http://baidu.com">baidu link</Button>
+                    <Button type="link" href="http://baidu.com" disabled>baidu link disabled</Button>
                 </p>
                 <a
                     className="App-link"
