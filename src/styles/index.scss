@@ -6,8 +6,13 @@
 
 @import 'mixin';
 
+@import 'animation';
+
 //button
 @import '../components/button/style';
 
 //menu
 @import '../components/menu/style';
+
+//icon
+@import '../components/icon/style';

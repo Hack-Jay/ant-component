@@ -1,6 +1,7 @@
 import React, { useState, createContext } from 'react'
 import classNames from 'classnames'
 import { MenuItemProps } from './menu-item'
+import { SubMenuItemProps } from './sub-menu'
 
 type MenuMode = 'horizontal' | 'vertical'
 type SelectedCallback = (index: string) => void
@@ -19,6 +20,11 @@ export interface IMenuContext {
     onSelect?: SelectedCallback
     mode?: MenuMode
     defaultOpenSubMenu?: string[]
+}
+
+export interface IMenuItem {
+    Item: MenuItemProps
+    SubItem: SubMenuItemProps
 }
 
 export const MenuContext = createContext<IMenuContext>({ index: '0' })

@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react'
 import classNames from 'classnames'
 import { IMenuContext, MenuContext } from './menu';
 import { MenuItemProps } from './menu-item';
+import Icon from '../icon';
+import Transition from '../transition/transition';
 
 export interface SubMenuItemProps {
     title: string;
@@ -60,14 +62,17 @@ const SubMenu: React.FC<SubMenuItemProps> = (props) => {
                 console.error('Warning: Menu has a child which is not a MenuItem component')
             }
         })
-        return <ul className={subMenuClass}>
-            {childElement}
-        </ul>
+        return <Transition in={isOpen} timeout={200} animation='zoom-in-top'>
+            <ul className={subMenuClass}>
+                {childElement}
+            </ul>
+        </Transition>
     }
 
     return <li className={classes} {...hoverEvents}>
         <div className="submenu-title"  {...clickEvents}>
             {title}
+            <Icon icon='angle-down' className='arrow-icon' />
         </div>
         {renderChildren()}
     </li>

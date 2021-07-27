@@ -1,11 +1,15 @@
 import React from 'react';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 import Button from './components/button/button';
 import Menu, { MenuProps } from './components/menu/menu';
 import MenuItem from './components/menu/menu-item';
 import SubMenu from './components/menu/sub-menu';
+import Icon from './components/icon/icon';
+
+library.add(fas)
 
 const testProps: MenuProps = {
-    // mode: 'vertical',
     defaultIndex: '0',
     onSelect: (index) => { console.log(index) },
     className: 'test',
@@ -15,6 +19,10 @@ function App() {
     return (
         <div className="App">
             <header className="App-header">
+                <div>
+                    <h4>Icon</h4>
+                    <Icon icon='coffee' theme='primary' size='2x' />
+                </div>
                 <div>
                     <h4>Menu</h4>
                     <Menu {...testProps}>
@@ -29,7 +37,7 @@ function App() {
                         </MenuItem>
                         <SubMenu title="dropdown">
                             <MenuItem>
-                                drop1
+                                dropdown1
                             </MenuItem>
                         </SubMenu>
                         <SubMenu title="opened">
