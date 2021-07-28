@@ -4,6 +4,19 @@ import Menu, { MenuProps } from './menu';
 import MenuItem from './menu-item';
 import SubMenu from './sub-menu';
 
+jest.mock('../icon/icon', () => {
+    return () => {
+        return <i className="fa" />
+    }
+})
+jest.mock('react-transition-group', () => {
+    return {
+        CSSTransition: (props: any) => {
+            return props.children
+        }
+    }
+})
+
 const testProps: MenuProps = {
     onSelect: jest.fn(),
     className: 'test'
