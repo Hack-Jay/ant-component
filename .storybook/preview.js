@@ -1,6 +1,10 @@
 import { addDecorator } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
+import { library } from "@fortawesome/fontawesome-svg-core"
+import { fas } from "@fortawesome/free-solid-svg-icons"
 import '../src/styles/index.scss'
+
+library.add(fas)
 
 const { withPropsTable } = require('storybook-addon-react-docgen')
 
@@ -9,8 +13,8 @@ const wrapperStyle: React.CSSProperties = {
     width: '500px'
 }
 const storyWrapper = (stroyFn: any) => (
-    <div style={wrapperStyle}>
-        <h3>组件演示</h3>
+    <div style={{ padding: '20px 40px', width: '500px' }}>
+        <h3 style={{ marginBottom: '20px' }}>组件演示</h3>
         {stroyFn()}
     </div>
 )

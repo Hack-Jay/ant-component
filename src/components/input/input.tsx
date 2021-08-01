@@ -43,6 +43,7 @@ export const Input: FC<InputProps> = (props) => {
     "input-group-prepend": !!prepend,
   });
 
+  // fix when control value undefined to string
   const fixControlledValue = (value: any) => {
     if (typeof value === "undefined" || value === null) {
       return "";

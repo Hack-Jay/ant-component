@@ -6,9 +6,17 @@ import Menu, { MenuProps } from "./components/menu/menu";
 import MenuItem from "./components/menu/menu-item";
 import SubMenu from "./components/menu/sub-menu";
 import Icon from "./components/icon/icon";
-import AutoComplete from "./components/autocomplete/autocomplete";
+import AutoComplete, {
+  DataSourceType,
+} from "./components/autocomplete/autocomplete";
 
 library.add(fas);
+
+interface GithubUserProps {
+  login: string;
+  url: string;
+  avatar_url: string;
+}
 
 const testProps: MenuProps = {
   defaultIndex: "0",
@@ -19,36 +27,40 @@ const testProps: MenuProps = {
   defaultOpenSubMenu: ["3"],
 };
 
-const lakers = [
-  "bradley",
-  "pope",
-  "caruso",
-  "cook",
-  "cousins",
-  "james",
-  "AD",
-  "green",
-  "howard",
-  "kuzma",
-  "McGee",
-  "rando",
-];
-
 const handleFetch = (query: string) => {
-  return lakers.filter((name) => name.includes(query));
+  return fetch(`https://api.github.com/search/users?q=${query}`)
+    .then((res) => res.json())
+    .then(({ items }) => {
+      console.log(items);
+      return items
+        .slice(0, 10)
+        .map((item: any) => ({ value: item.login, ...item }));
+    });
 };
 
+const renderOption = (item: DataSourceType) => {
+  const itemWithGithub = item as DataSourceType<GithubUserProps>;
+  return (
+    <>
+      <span>Name: {itemWithGithub.value}</span>
+      {/* <p>url: {itemWithGithub.url}</p> */}
+    </>
+  );
+};
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <div>
           <h4>AutoComplete</h4>
-          <AutoComplete
-            fetchSuggestions={handleFetch}
-            onSelect={(value) => console.log("select", value)}
-            //renderOption={renderOption}
-          />
+          <div style={{ width: "500px" }}>
+            <AutoComplete
+              placeholder="github auto complete"
+              fetchSuggestions={handleFetch}
+              onSelect={(value) => console.log("select", value)}
+              renderOption={renderOption}
+            />
+          </div>
         </div>
         <div>
           <h4>Icon</h4>
