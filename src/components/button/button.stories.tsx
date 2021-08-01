@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Button from './button';
 
 export default {
-    title: 'Simple/Button',
+    title: 'Example/Button',
     component: Button,
     argTypes: {
         backgroundColor: { control: 'color' },
@@ -23,6 +23,7 @@ export default {
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
+Primary.storyName = 'Button'
 Primary.args = {
     btnType: 'primary',
     children: 'Primary Button'
