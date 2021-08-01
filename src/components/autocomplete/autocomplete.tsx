@@ -42,7 +42,10 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const triggerSearch = useRef(false);
   const componentRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(componentRef, () => setSuggestions([]));
+  useClickOutside(componentRef, () => {
+    setSuggestions([]);
+    setShowDropdown(false);
+  });
 
   useEffect(() => {
     if (debounceValue && triggerSearch.current) {

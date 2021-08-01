@@ -65,4 +65,4 @@ const Template: ComponentStory<typeof AutoComplete> = (args) => (
 );
 
 export const DefaultAutoComplete = Template.bind({});
-DefaultAutoComplete.storyName = "asyncAutoComplete";
+DefaultAutoComplete.storyName = "Async AutoComplete";
