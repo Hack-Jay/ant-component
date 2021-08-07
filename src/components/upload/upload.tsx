@@ -2,6 +2,7 @@ import React, { ChangeEvent, useRef, useState } from "react";
 import axios from "axios";
 import Button from "../button";
 import UploadList from "./uploadList";
+import Dragger from "./dragger";
 
 type UploadStatus = "ready" | "uploading" | "success" | "error";
 
@@ -25,6 +26,13 @@ export interface UploadProps {
   onError?: (err: any, file: File) => void;
   onChange?: (file: File) => void;
   onRemove?: (file: UploadFile) => void;
+  headers?: { [key: string]: any };
+  name?: string;
+  data?: { [key: string]: any };
+  multiple?: boolean;
+  withCredentials?: boolean;
+  accept?: string;
+  drag?: boolean;
 }
 
 export const Upload: React.FC<UploadProps> = (props) => {
@@ -37,6 +45,14 @@ export const Upload: React.FC<UploadProps> = (props) => {
     onError,
     onChange,
     onRemove,
+    headers,
+    name,
+    data,
+    multiple,
+    withCredentials,
+    accept,
+    drag,
+    children,
   } = props;
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList || []);
 
@@ -95,14 +111,21 @@ export const Upload: React.FC<UploadProps> = (props) => {
       status: "ready",
       percent: 0,
     };
-    setFileList([_file, ...fileList]);
+    setFileList((preList) => [_file, ...preList]);
     const formData = new FormData();
-    formData.append(file.name, file);
+    formData.append(name || "file", file);
+    if (data) {
+      Object.keys(data).forEach((key) => {
+        formData.append(key, data[key]);
+      });
+    }
     axios
       .post(action, formData, {
         headers: {
+          ...headers,
           "Content-Type": "multipart/form-data",
         },
+        withCredentials,
         onUploadProgress: (e) => {
           let percentage = Math.round((e.loaded * 100) / e.total) || 0;
           updateFileList(_file, {
@@ -135,6 +158,7 @@ export const Upload: React.FC<UploadProps> = (props) => {
     setFileList((preList) => {
       return preList.filter((item) => item.uuid !== file.uuid);
     });
+    onRemove && onRemove(file);
   };
 
   const handleClick = () => {
@@ -143,18 +167,27 @@ export const Upload: React.FC<UploadProps> = (props) => {
 
   return (
     <div className="ant-upload-component">
-      <div className="ant-upload-input">
-        <Button onClick={handleClick}>点击上传</Button>
+      <div
+        className="ant-upload-input"
+        onClick={handleClick}
+        style={{ display: "inline-block" }}
+      >
+        {drag ? (
+          <Dragger onFile={(file) => uploadFiles(file)}>{children}</Dragger>
+        ) : (
+          children
+        )}
         <input
           type="file"
           className="ant-file-input"
           style={{ display: "none" }}
           ref={uploadRef}
           onChange={handleFileChange}
+          accept={accept}
+          multiple={multiple}
         />
-
-        <UploadList fileList={fileList} onRemove={handleRemove} />
       </div>
+      <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   );
 };

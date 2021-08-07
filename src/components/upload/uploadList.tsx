@@ -1,5 +1,6 @@
 import React from "react";
 import Icon from "../icon";
+import Progress from "../progress/progress";
 import { UploadFile } from "./upload";
 
 interface UploadListProps {
@@ -39,6 +40,10 @@ export const UploadList: React.FC<UploadListProps> = (props) => {
                 }}
               />
             </span>
+
+            {item.status === "uploading" && (
+              <Progress precents={item.percent || 0} />
+            )}
           </li>
         );
       })}
